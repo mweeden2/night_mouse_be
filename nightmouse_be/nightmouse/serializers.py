@@ -12,3 +12,8 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
         fields = ('url', 'name')
+
+#class GameStateSerializer(serializers.HylerlinkedModelSerializer):
+#    class Meta:
+#        model = GameState
+#        fields = ('',)
