@@ -38,6 +38,12 @@ class BoardState(models.Model):
     f3 = models.CharField(max_length=1)
     f4 = models.CharField(max_length=1)
     f5 = models.CharField(max_length=1)
+ 
+    class Meta:
+        app_label = 'nightmouse_be'
+
+    def __str__(self):
+        return  "".join(vars(self).values())
 
 class GameState(models.Model):
     winner = models.CharField(max_length=1)
@@ -45,3 +51,7 @@ class GameState(models.Model):
     player_y = models.ForeignKey(User)
     next_turn = models.ForeignKey(User)
     board_state = models.ForeignKey(BoardState)
+    desc = models.CharField(max_length=20)
+
+    def __str__(self):
+        return player_x.username + " " + player_y.username
