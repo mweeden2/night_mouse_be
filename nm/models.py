@@ -7,4 +7,4 @@ class Game(models.Model):
     cells = models.CharField(max_length=36)
 
     class Meta:
-        ordering = ('created',)
+        ordering = ['created']
