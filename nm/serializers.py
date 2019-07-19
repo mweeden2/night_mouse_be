@@ -6,7 +6,7 @@ from datetime import datetime
 class GameSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     created = serializers.DateTimeField(default=datetime.now())
-    updated = serializers.DateTimeField(required=False)
+    updated = serializers.DateTimeField(required=False, allow_blank=True)
     cells = serializers.CharField(max_length=36)
 
     def create(self, validated_data):
