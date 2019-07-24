@@ -6,4 +6,4 @@ from datetime import datetime
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ['id', 'create', 'updated', 'cells']
+        fields = ['id', 'created', 'updated', 'cells']
