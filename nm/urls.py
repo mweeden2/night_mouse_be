@@ -4,8 +4,8 @@ from nm import views
 
 
 urlpatterns = [
-    path('nm/', views.game_list),
-    path('nm/<int:pk>/', views.game_detail)
+    path('nm/', views.GameList.as_view()),
+    path('nm/<int:pk>/', views.GameDetail.as_view())
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
