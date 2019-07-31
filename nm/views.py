@@ -1,52 +1,32 @@
-from django.contrib.auth.models import User
-from rest_framework import generics, permissions
-from rest_framework.decorators import api_view
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework import permissions
+
+from django.contrib.auth.models import User
 
 from nm.permissions import IsPlayerOrReadOnly
-
 from nm.models import Game
 from nm.serializers import GameSerializer, UserSerializer
 
 
-@api_view(['GET'])
-def api_root(request, format=None):
-    return Response({
-        'users': reverse('user-list', request=request, format=format),
-        'games': reverse('game-list', request=request, format=format),
-    })
 
-
-class GameList(generics.ListCreateAPIView):
+class GameViewSet(viewsets.ModelViewSet):
     """
-    List all games, or create a new game.
+    This viewset automatically providers `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
     """
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
     queryset = Game.objects.all()
     serializer_class = GameSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+                          IsPlayerOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(player_x=self.request.user)
 
-
-class GameDetail(generics.RetrieveUpdateDestroyAPIView):
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Retrieve, update, or delete a game.
+    This viewset automatically providers `list` and `detail` actions.
     """
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
-                          IsPlayerOrReadOnly]
-
-    queryset = Game.objects.all()
-    serializer_class = GameSerializer
-
-
-class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
